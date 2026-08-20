@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-
-// Importing all feature views
 import PlanetsView from '../views/PlanetsView.vue'
+import PlanetDetails from '../views/PlanetDetails.vue'
 import MarsView from '../views/MarsView.vue'
 import ApodView from '../views/ApodView.vue'
 import SearchView from '../views/SearchView.vue'
@@ -18,6 +17,12 @@ const routes = [
     path: '/planets',
     name: 'Planets',
     component: PlanetsView
+  },
+  {
+    path: '/planets/:id',
+    name: 'PlanetDetails',
+    component: PlanetDetails,
+    props: true
   },
   {
     path: '/mars',
@@ -44,7 +49,6 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  // Scroll to top when navigating to a new route
   scrollBehavior() {
     return { top: 0 }
   }
