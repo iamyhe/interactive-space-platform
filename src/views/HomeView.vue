@@ -134,7 +134,24 @@
           </div>
           
         </div>
-
+         
+        <!-- weather Section  -->
+        <section class="weather-section">
+          <div class="weather-card">
+            <div class="weather-content">
+              <h2 class="section-title">LOCAL WEATHER</h2>
+              <p class="section-desc">
+                Discover the current weather conditions in your area instantly, just by using your geographic location.
+              </p>
+              <router-link to="/weather" class="weather-btn btn outline-action-btn btn-sm">
+                CHECK WEATHER &rarr;
+              </router-link>
+            </div>
+            <div class="weather-img">
+              <img src="../assets/weather.jpeg" alt="">
+            </div>
+          </div>
+        </section>
       </div>
     </section>
   </div>
@@ -424,6 +441,96 @@ export default {
 .fav-item:hover .fav-img { transform: scale(1.1); }
 .fav-item:hover .fav-overlay { opacity: 1; }
 .heart-icon { color: #fff; font-size: 1.2rem; }
+
+.weather-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.weather-card {
+  background-color: #0b1121; 
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color 0.3s ease;
+}
+
+.weather-card:hover {
+  border-color: #334155; 
+}
+
+.weather-content {
+  max-width: 600px;
+}
+
+.section-title {
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.section-desc {
+  color: #94a3b8; 
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.weather-btn {
+  display: inline-block;
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #4f46e5; 
+  padding: 0.6rem 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.weather-btn:hover {
+  background-color: rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 10px rgba(79, 70, 229, 0.2);
+}
+
+.weather-img {
+  width: 200px; 
+  height: 175px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.75; 
+}
+
+@media (max-width: 768px) {
+  .weather-card {
+    flex-direction: column;
+    text-align: left;
+    align-items: flex-start;
+  }
+  .weather-img {
+    display: none;
+  }
+}
 
 @media (max-width: 1200px) { .planets-grid { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width: 991px) { .apod-content-wrapper { max-width: 100%; text-align: left !important; } }
