@@ -47,7 +47,6 @@
           style="width: 4rem; height: 4rem"
           role="status"
         >
-          <span class="visually-hidden">Loading...</span>
         </div>
         <h5 class="text-light mt-3">Loading Mars Data...</h5>
       </div>
@@ -168,7 +167,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
 const data = ref([]);
 const selectedDesc = ref("");

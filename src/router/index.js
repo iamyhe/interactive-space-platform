@@ -6,6 +6,7 @@ import MarsView from '../views/MarsView.vue'
 import ApodView from '../views/ApodView.vue'
 import SearchView from '../views/SearchView.vue'
 import FavoritesView from '../views/FavoritesView.vue'
+import WeatherView from '../views/WeatherView.vue'
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
     path: '/favorites',
     name: 'Favorites',
     component: FavoritesView
+  },
+  {
+    path:"/weather",
+    name:"Weather",
+    component: WeatherView
   }
 ]
 
