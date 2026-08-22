@@ -16,6 +16,7 @@
           <li class="nav-item"><router-link class="nav-link" to="/planets">Planets</router-link></li>
           <li class="nav-item"><router-link class="nav-link" to="/mars">Mars</router-link></li>
           <li class="nav-item"><router-link class="nav-link" to="/apod">APOD</router-link></li>
+          <li class="nav-item"><router-link class="nav-link" to="/weather">Weather</router-link></li>
           <li class="nav-item"><router-link class="nav-link" to="/search">Search</router-link></li>
           <li class="nav-item"><router-link class="nav-link" to="/favorites">Favorites</router-link></li>
         </ul>

@@ -9,11 +9,12 @@
         <small class="text-muted">Explore • Discover • Learn</small>
       </div>
       
-      <div class="links-section mb-3 mb-md-0">
+      <div class="links-section mb-3 mb-md-0 d-flex flex-wrap justify-content-center">
         <router-link to="/" class="footer-link">Home</router-link>
         <router-link to="/planets" class="footer-link">Planets</router-link>
         <router-link to="/mars" class="footer-link">Mars</router-link>
         <router-link to="/apod" class="footer-link">APOD</router-link>
+        <router-link to="/weather" class="footer-link">Weather</router-link>
         <router-link to="/search" class="footer-link">Search</router-link>
         <router-link to="/favorites" class="footer-link">Favorites</router-link>
       </div>
