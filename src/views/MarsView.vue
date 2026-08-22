@@ -18,17 +18,17 @@
           <option value="Spirit">Spirit</option>
         </select>
       </div>
-
-      <div
-        class="mars-hotspot"
+      <img
+        class="mars-img"
         v-if="!isClicked"
         @click="ShowMarsRover"
-        title="Click to Explore Mars!"
+        src="../assets/planet-mars.png"
+        alt="mars photo"
+      />
+      <div
+        v-if="!isClicked"
+        class="alert alert-danger text-center position-relative z-3"
       >
-        <div class="pulse-ring"></div>
-      </div>
-
-      <div v-if="!isClicked" class="alert alert-danger text-center">
         Click on Mars
       </div>
       <div
@@ -46,8 +46,7 @@
           class="spinner-border text-primary"
           style="width: 4rem; height: 4rem"
           role="status"
-        >
-        </div>
+        ></div>
         <h5 class="text-light mt-3">Loading Mars Data...</h5>
       </div>
       <div v-else class="position-relative px-4">
@@ -224,7 +223,7 @@ const ShowMarsRover = () => {
 
 <style scoped>
 #cover {
-  background-image: url("/public/mars.jpeg");
+  background-image: url("../assets/apod-banner.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -239,21 +238,21 @@ const ShowMarsRover = () => {
 #cards:hover {
   transform: scale(1.05);
 }
-.mars-hotspot {
+.mars-img {
   position: absolute;
   bottom: 12vh;
   left: 50%;
   transform: translateX(-50%);
-  width: 100vw;
-  height: 100vw;
-  max-width: 510px;
-  max-height: 510px;
+  width: 90vw;
+  height: 90vw;
+  max-width: 500px;
+  max-height: 500px;
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
   transition: all 0.3s ease-in-out;
 }
-.mars-hotspot:hover {
+.mars-img:hover {
   box-shadow: 0px -20px 80px 20px rgba(255, 69, 0, 0.3);
 }
 </style>

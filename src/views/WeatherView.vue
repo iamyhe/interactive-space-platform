@@ -97,7 +97,6 @@ const data = ref(null)
 const searchArea = ref("")
 const api_keys = ["2yS3JLIQx2pZshFBzp8nQ0niyv6tRqyd","Jc71Eg4BTF9RgTRe2P69ZQkYlm7RjkCX","VYRDkEEKW8Ob05XFxO1qA1DY4cEvd9WG"]
 
-navigator.geolocation.getCurrentPosition(success,fail)
 const success = (p) => {
     Latitude.value=p.coords.latitude;
     Longitude.value=p.coords.longitude;
@@ -106,7 +105,7 @@ const success = (p) => {
 const fail = () => {
     alert("Sorry,We Cannot Acess Your Location")
 }
-
+navigator.geolocation.getCurrentPosition(success,fail)
 const fetchWeatherData = async () => {
   try {
     let location = searchArea.value == "" 
