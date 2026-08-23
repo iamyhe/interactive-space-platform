@@ -170,7 +170,7 @@ const fetchWeatherData = async () => {
         : searchArea.value;
 
     const response = await fetch(
-      `https://api.tomorrow.io/v4/weather/realtime?location=${location}&apikey=${api_keys[2]}`,
+      `https://api.tomorrow.io/v4/weather/realtime?location=${location}&apikey=${api_keys[1]}`,
     );
 
     if (!response.ok) {

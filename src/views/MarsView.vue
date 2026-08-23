@@ -1,6 +1,7 @@
 <template>
   <div id="cover">
-    <div id="MarsPhoto" class="container py-5">
+    <div class="container py-5">
+      <!-- Header  -->
       <div
         v-if="isClicked"
         class="d-flex justify-content-between align-items-center mb-4 fade-in"
@@ -18,25 +19,19 @@
           <option value="Spirit">Spirit</option>
         </select>
       </div>
-      <img
-        class="mars-img"
-        v-if="!isClicked"
-        @click="ShowMarsRover"
-        src="../assets/planet-mars.png"
-        alt="mars photo"
-      />
-      <div
-        v-if="!isClicked"
-        class="alert alert-danger text-center position-relative z-3"
-      >
-        Click on Mars
+      <!-- Before Loading  -->
+      <div v-if="!isClicked">
+        <img
+          class="mars-img"
+          @click="ShowMarsRover"
+          src="../assets/planet-mars.png"
+          alt="mars photo"
+        />
+        <div class="alert alert-danger text-center position-relative z-3">
+          Click on Mars
+        </div>
       </div>
-      <div
-        v-else-if="isClicked && !isLoading && data.length === 0"
-        class="alert alert-warning text-center"
-      >
-        No Data Found
-      </div>
+      <!-- Loading  -->
       <div
         v-else-if="isLoading"
         class="d-flex flex-column justify-content-center align-items-center my-5"
@@ -49,89 +44,55 @@
         ></div>
         <h5 class="text-light mt-3">Loading Mars Data...</h5>
       </div>
-      <div v-else class="position-relative px-4">
-        <button
-          @click="scrollLeft"
-          class="btn btn-primary position-absolute top-50 start-0 translate-middle-y z-3 rounded-circle"
-          style="width: 40px; height: 40px"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-arrow-left-short"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"
-            />
-          </svg>
-        </button>
-
+      <!-- No Data  -->
+      <div
+        v-else-if="isClicked && !isLoading && data.length === 0"
+        class="alert alert-warning text-center"
+      >
+        No Data Found
+      </div>
+      <!-- Cards  -->
+      <div
+        v-else
+        class="position-relative px-4 d-flex flex-wrap justify-content-center gap-4 pb-4"
+      >
         <div
-          ref="slider"
-          class="d-flex flex-nowrap overflow-hidden gap-3 py-3"
-          style="scroll-behavior: smooth"
+          class="card modern-card flex-shrink-0 shadow-none border-0"
+          style="width: 320px"
+          v-for="item in data"
+          :key="item.data[0].nasa_id"
         >
-          <div
-            id="cards"
-            class="card flex-shrink-0 shadow-sm border-2 border-black bg-dark"
-            style="width: 300px"
-            v-for="item in data"
-            :key="item.data[0].nasa_id"
-          >
+          <div class="p-4 pb-2">
             <img
               loading="lazy"
               :src="item.links[0].href"
-              class="card-img-top"
-              style="height: 250px; object-fit: cover"
+              class="card-img-top rounded-4 w-100"
+              style="height: 220px; object-fit: cover"
             />
-
-            <div class="card-body d-flex flex-column">
-              <h6 class="card-title text-primary mb-3">
-                {{ item.data[0].title }}
-              </h6>
-
-              <p class="card-text text-muted mb-3 mt-auto">
-                <b>Date :</b>
-                <span class="badge bg-secondary">{{
-                  item.data[0].date_created
-                }}</span>
-              </p>
-              <button
-                @click="showDescription(item.data[0].description)"
-                class="btn btn-primary btn-sm w-100"
-                data-bs-toggle="modal"
-                data-bs-target="#descriptionModal"
-              >
-                Description
-              </button>
-            </div>
+          </div>
+          <div class="card-body d-flex flex-column text-start px-4 pb-4 pt-2">
+            <h5 class="card-title text-white fw-bold mb-2 title-clamp">
+              {{ item.data[0].title }}
+            </h5>
+            <p
+              class="card-text mb-4 mt-auto"
+              style="font-size: 0.85rem; color: #a0a0b0"
+            >
+              {{ formatDate(item.data[0].date_created) }}
+            </p>
+            <a
+              href="#"
+              @click.prevent="showDescription(item.data[0].description)"
+              class="view-details text-decoration-none"
+              data-bs-toggle="modal"
+              data-bs-target="#descriptionModal"
+            >
+              View Details &rarr;
+            </a>
           </div>
         </div>
-
-        <button
-          @click="scrollRight"
-          class="btn btn-primary position-absolute top-50 end-0 translate-middle-y z-3 rounded-circle"
-          style="width: 40px; height: 40px"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-arrow-right-short"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"
-            />
-          </svg>
-        </button>
       </div>
+      <!-- Modal  -->
       <div
         class="modal fade"
         id="descriptionModal"
@@ -140,19 +101,22 @@
         aria-hidden="true"
       >
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content bg-dark text-light">
+          <div class="modal-content text-light modern-modal">
             <div class="modal-header">
-              <h5 class="modal-title" id="descriptionModalLabel">
+              <h5 class="modal-title fw-bold" id="descriptionModalLabel">
                 Photo Description
               </h5>
             </div>
-            <div class="modal-body text-start bg-dark">
+            <div
+              class="modal-body text-start"
+              style="line-height: 1.8; color: #d0d0e0"
+            >
               {{ selectedDesc }}
             </div>
-            <div class="modal-footer bg-dark">
+            <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                class="btn close-btn px-4"
                 data-bs-dismiss="modal"
               >
                 Close
@@ -170,26 +134,9 @@ import { ref } from "vue";
 
 const data = ref([]);
 const selectedDesc = ref("");
-const slider = ref(null);
 const isClicked = ref(false);
 const isLoading = ref(false);
 const selectedRover = ref("mars");
-
-const showDescription = (desc) => {
-  selectedDesc.value = desc;
-};
-
-const scrollLeft = () => {
-  if (slider.value) {
-    slider.value.scrollBy({ left: -320, behavior: "smooth" });
-  }
-};
-
-const scrollRight = () => {
-  if (slider.value) {
-    slider.value.scrollBy({ left: 320, behavior: "smooth" });
-  }
-};
 
 const fetchMarsData = async () => {
   isLoading.value = true;
@@ -203,10 +150,7 @@ const fetchMarsData = async () => {
     }
     const result = await response.json();
     const items = result.collection.items;
-    data.value = [];
-    for (let i = 0; i < 25; i++) {
-      data.value.push(items[i]);
-    }
+    data.value = items;
   } catch (error) {
     console.error("Error fetching photos:", error);
   } finally {
@@ -219,6 +163,17 @@ const ShowMarsRover = () => {
     isClicked.value = true;
   }
 };
+const showDescription = (desc) => {
+  selectedDesc.value = desc;
+};
+
+const formatDate = (date) => {
+  if (!date) {
+    return "Unknown Date";
+  }
+  const options = { year: "numeric", month: "short", day: "numeric" };
+  return new Date(date).toLocaleDateString("en-US", options);
+};
 </script>
 
 <style scoped>
@@ -230,13 +185,7 @@ const ShowMarsRover = () => {
   position: relative;
   min-height: 100vh;
   width: 100%;
-  overflow: hidden;
-}
-.select {
-  width: 300px !important;
-}
-#cards:hover {
-  transform: scale(1.05);
+  background-attachment: fixed;
 }
 .mars-img {
   position: absolute;
@@ -254,5 +203,56 @@ const ShowMarsRover = () => {
 }
 .mars-img:hover {
   box-shadow: 0px -20px 80px 20px rgba(255, 69, 0, 0.3);
+}
+.select {
+  width: 300px !important;
+}
+.modern-card {
+  background-color: #232338;
+  border-radius: 24px;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
+  height: 100%;
+}
+.modern-card:hover {
+  transform: translateY(-8px);
+  background-color: #2a2a42;
+}
+.view-details {
+  color: #a8a4f0;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+.view-details:hover {
+  color: #c4c1ff;
+}
+.title-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 2.8rem;
+}
+.modern-modal {
+  background-color: #232338;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+.close-btn {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: #a8a4f0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #c4c1ff;
+  border-color: rgba(255, 255, 255, 0.15);
 }
 </style>
