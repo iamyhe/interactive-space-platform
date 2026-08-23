@@ -1,5 +1,7 @@
 <template>
-  <!-- 1. Loading Screen -->
+  <!-- ========================================== -->
+  <!-- 1. LOADING SCREEN                          -->
+  <!-- ========================================== -->
   <transition name="fade-screen">
     <div v-if="isLoading" class="loader-screen">
       <div class="loader-content">
@@ -15,7 +17,9 @@
     </div>
   </transition>
 
-  <!-- 2. Main Content -->
+  <!-- ========================================== -->
+  <!-- 2. MAIN VIEW CONTENT                       -->
+  <!-- ========================================== -->
   <transition name="fade-screen">
     <div v-if="!isLoading" class="home-view">
       
@@ -26,13 +30,15 @@
         <div class="stars3"></div>
       </div>
 
-      <!-- Hero Section -->
+      <!-- ========================================== -->
+      <!-- HERO SECTION                               -->
+      <!-- ========================================== -->
       <header class="hero-section d-flex align-items-center">
         <div class="container position-relative z-index-2">
           <div class="row">
             <div class="col-12 col-lg-10 col-md-12">
               
-              <!-- Perfected ONE-CURSOR Two-line Typewriter Effect -->
+              <!-- Perfected Two-line Typewriter Effect -->
               <h1 class="hero-title fw-bold mb-3">
                 <span class="type-wrap">
                   <span class="invisible-text">EXPLORE THE</span>
@@ -56,11 +62,15 @@
                 </router-link>
                 <a href="#explore-section" class="btn btn-outline-light secondary-btn">DISCOVER MORE</a>
               </div>
+
             </div>
           </div>
         </div>
       </header>
 
+      <!-- ========================================== -->
+      <!-- EXPLORE SECTION (PLANETS & FEATURES)       -->
+      <!-- ========================================== -->
       <section id="explore-section" class="solar-system-section py-5 position-relative z-index-2">
         <div class="container-fluid px-4 px-lg-5 mt-4">
           
@@ -86,8 +96,9 @@
             </div>
           </div>
 
-          <!-- Feature Cards -->
+          <!-- Feature Cards (Mars & APOD) -->
           <div class="row g-4 mb-4 hidden-section">
+            
             <div class="col-lg-6">
               <div class="feature-card mars-card d-flex align-items-center">
                 <div class="feature-content z-index-2">
@@ -125,19 +136,20 @@
                 </div>
               </div>
             </div>
+
           </div>
 
-          <!-- Tools Section -->
+          <!-- Tools Section (Search & Favorites) -->
           <div class="row g-4 mb-5 hidden-section">
+            
             <div class="col-lg-5">
               <div class="tool-card p-4 h-100 d-flex flex-column justify-content-center">
                 <h4 class="tool-title mb-1">SEARCH THE UNIVERSE</h4>
                 <p class="tool-desc mb-4">Explore NASA's collection of space imagery.</p>
-                
                 <div class="search-input-wrapper d-flex">
                   <div class="input-icon-wrapper flex-grow-1 position-relative">
                     <span class="search-icon">🔍</span>
-                    <input type="text" class="form-control custom-search-input" placeholder="Search planets, galaxies, missions...">
+                    <input type="text" class="form-control custom-search-input" placeholder="Search planets, galaxies...">
                   </div>
                   <router-link to="/search" class="btn primary-btn ms-2 px-4">
                     SEARCH <span class="ms-1">🔍</span>
@@ -157,7 +169,6 @@
                     VIEW FAVORITES &rarr;
                   </router-link>
                 </div>
-                
                 <div class="favorites-gallery d-flex gap-2 mt-2">
                   <div class="fav-item position-relative" v-for="(fav, index) in favorites" :key="index">
                     <img :src="fav" alt="Favorite Image" class="fav-img">
@@ -166,10 +177,11 @@
                 </div>
               </div>
             </div>
+
           </div>
             
           <!-- Weather Section -->
-          <section class="weather-section hidden-section">
+          <section class="weather-section hidden-section mb-5">
             <div class="weather-card">
               <div class="weather-content">
                 <h2 class="section-title">LOCAL WEATHER</h2>
@@ -188,6 +200,7 @@
 
         </div>
       </section>
+
     </div>
   </transition>
 </template>
@@ -228,6 +241,7 @@ export default {
     }
   },
   mounted() {
+    // Hide loader after simulation delay
     setTimeout(() => {
       this.isLoading = false;
       
@@ -239,9 +253,7 @@ export default {
               observer.unobserve(entry.target); 
             }
           });
-        }, {
-          threshold: 0.15 
-        });
+        }, { threshold: 0.15 });
 
         const hiddenElements = document.querySelectorAll('.hidden-section');
         hiddenElements.forEach(el => observer.observe(el));
@@ -254,7 +266,7 @@ export default {
 
 <style scoped>
 /* =========================================
-   1. Loader Styles
+   1. LOADER STYLES
 ========================================= */
 .loader-screen {
   position: fixed;
@@ -316,7 +328,9 @@ export default {
 }
 
 @keyframes spin {
-  100% { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loader-title {
@@ -338,22 +352,32 @@ export default {
 }
 
 @keyframes dots {
-  0%, 20% { content: ''; }
-  40% { content: '.'; }
-  60% { content: '..'; }
-  80%, 100% { content: '...'; }
+  0%, 20% {
+    content: '';
+  }
+  40% {
+    content: '.';
+  }
+  60% {
+    content: '..';
+  }
+  80%, 100% {
+    content: '...';
+  }
 }
 
-/* Page Transitions */
-.fade-screen-enter-active, .fade-screen-leave-active {
+.fade-screen-enter-active,
+.fade-screen-leave-active {
   transition: opacity 0.8s ease;
 }
-.fade-screen-enter-from, .fade-screen-leave-to {
+
+.fade-screen-enter-from,
+.fade-screen-leave-to {
   opacity: 0;
 }
 
 /* =========================================
-   2. Scroll & View Animations
+   2. VIEW ANIMATIONS & BACKGROUND
 ========================================= */
 .hidden-section {
   opacity: 0;
@@ -366,22 +390,31 @@ export default {
   transform: translateY(0);
 }
 
-.fade-in-2, .fade-in-3 {
+.fade-in-2,
+.fade-in-3 {
   opacity: 0;
   animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.fade-in-2 { animation-delay: 0.5s; } 
-.fade-in-3 { animation-delay: 0.8s; } 
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+.fade-in-2 {
+  animation-delay: 0.5s;
 }
 
-/* =========================================
-   3. Animated Space Background
-========================================= */
+.fade-in-3 {
+  animation-delay: 0.8s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .home-view {
   position: relative;
   overflow-x: hidden;
@@ -398,40 +431,55 @@ export default {
   pointer-events: none;
 }
 
-.stars, .stars2, .stars3 {
+.stars,
+.stars2,
+.stars3 {
   position: absolute;
-  top: -100%; left: 0; right: 0; bottom: 0;
-  width: 100%; height: 200%;
+  top: -100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 200%;
 }
 
 .stars {
-  background-image: radial-gradient(1px 1px at 20px 30px, #ffffff, transparent), radial-gradient(1px 1px at 90px 120px, #ffffff, transparent), radial-gradient(1px 1px at 160px 60px, #ffffff, transparent), radial-gradient(1px 1px at 230px 180px, #ffffff, transparent);
+  background-image: radial-gradient(1px 1px at 20px 30px, #ffffff, transparent),
+                    radial-gradient(1px 1px at 90px 120px, #ffffff, transparent),
+                    radial-gradient(1px 1px at 160px 60px, #ffffff, transparent),
+                    radial-gradient(1px 1px at 230px 180px, #ffffff, transparent);
   background-size: 250px 250px;
   animation: starAnim 50s linear infinite;
   opacity: 0.6;
 }
 
 .stars2 {
-  background-image: radial-gradient(2px 2px at 50px 160px, #ffffff, transparent), radial-gradient(2px 2px at 180px 20px, #ffffff, transparent);
+  background-image: radial-gradient(2px 2px at 50px 160px, #ffffff, transparent),
+                    radial-gradient(2px 2px at 180px 20px, #ffffff, transparent);
   background-size: 350px 350px;
   animation: starAnim 100s linear infinite;
   opacity: 0.4;
 }
 
 .stars3 {
-  background-image: radial-gradient(2px 2px at 40px 70px, #8bb3f4, transparent), radial-gradient(2px 2px at 150px 150px, #ffffff, transparent);
+  background-image: radial-gradient(2px 2px at 40px 70px, #8bb3f4, transparent),
+                    radial-gradient(2px 2px at 150px 150px, #ffffff, transparent);
   background-size: 450px 450px;
   animation: starAnim 150s linear infinite;
   opacity: 0.3;
 }
 
 @keyframes starAnim {
-  from { transform: translateY(0); }
-  to { transform: translateY(50%); }
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(50%);
+  }
 }
 
 /* =========================================
-   4. Hero Section & PERFECT Typewriter
+   3. HERO SECTION & TYPEWRITER
 ========================================= */
 .hero-section {
   position: relative;
@@ -440,7 +488,7 @@ export default {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  margin-top: -70px; 
+  margin-top: -70px;
   padding-top: 70px;
 }
 
@@ -455,13 +503,16 @@ export default {
   z-index: 1;
 }
 
-.z-index-2 { z-index: 2; position: relative; }
+.z-index-2 {
+  z-index: 2;
+  position: relative;
+}
 
 .hero-title {
   margin: 0;
   color: #ffffff !important;
   opacity: 1 !important;
-  font-size: clamp(2.5rem, 5vw, 4.5rem); 
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   letter-spacing: 2px;
   line-height: 1.2;
 }
@@ -469,14 +520,15 @@ export default {
 .type-wrap {
   position: relative;
   display: inline-block;
-  padding-right: 6px; 
+  padding-right: 6px;
 }
 
 .invisible-text {
-  visibility: hidden; 
+  visibility: hidden;
 }
 
-.type-line-1, .type-line-2 {
+.type-line-1,
+.type-line-2 {
   position: absolute;
   top: 0;
   left: 0;
@@ -485,43 +537,69 @@ export default {
   white-space: nowrap;
 }
 
-/* Line 1: solid cursor while typing, then disappears immediately */
 .type-line-1 {
   width: 0;
   border-right: 4px solid #5a4fcf;
-  animation: typing-1 1.5s steps(20, end) forwards; 
+  animation: typing-1 1.5s steps(20, end) forwards;
 }
 
-/* Line 2: waits 1.5s, types with solid cursor, then blinks infinitely */
 .type-line-2 {
   width: 0;
   border-right: 4px solid transparent;
-  animation: 
-    typing-2 1.3s steps(20, end) 1.5s forwards, 
-    blink-caret-2 0.75s step-end 2.8s infinite; /* Blinks after 1.5 + 1.3 seconds */
+  animation: typing-2 1.3s steps(20, end) 1.5s forwards, blink-caret-2 0.75s step-end 2.8s infinite;
 }
 
 @keyframes typing-1 {
-  0% { width: 0; border-right-color: #5a4fcf; }
-  99.9% { width: 100%; border-right-color: #5a4fcf; }
-  100% { width: 100%; border-right-color: transparent; } /* Cursor dies */
+  0% {
+    width: 0;
+    border-right-color: #5a4fcf;
+  }
+  99.9% {
+    width: 100%;
+    border-right-color: #5a4fcf;
+  }
+  100% {
+    width: 100%;
+    border-right-color: transparent;
+  }
 }
 
 @keyframes typing-2 {
-  0% { width: 0; border-right-color: transparent; }
-  1% { width: 0; border-right-color: #5a4fcf; } /* Cursor spawns */
-  100% { width: 100%; border-right-color: #5a4fcf; }
+  0% {
+    width: 0;
+    border-right-color: transparent;
+  }
+  1% {
+    width: 0;
+    border-right-color: #5a4fcf;
+  }
+  100% {
+    width: 100%;
+    border-right-color: #5a4fcf;
+  }
 }
 
 @keyframes blink-caret-2 {
-  from, to { border-right-color: transparent; }
-  50% { border-right-color: #5a4fcf; }
+  from,
+  to {
+    border-right-color: transparent;
+  }
+  50% {
+    border-right-color: #5a4fcf;
+  }
 }
 
-.hero-subtitle { color: #5a4fcf; font-weight: 500; }
-.hero-text { color: rgba(255, 255, 255, 0.7); font-size: 1.1rem; }
+.hero-subtitle {
+  color: #5a4fcf;
+  font-weight: 500;
+}
 
-/* Pulse Animation for Button */
+.hero-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+}
+
+/* Buttons */
 .primary-btn {
   background-color: #5a4fcf;
   border-color: #5a4fcf;
@@ -535,9 +613,15 @@ export default {
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(90, 79, 207, 0.7); }
-  70% { box-shadow: 0 0 0 15px rgba(90, 79, 207, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(90, 79, 207, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(90, 79, 207, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(90, 79, 207, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(90, 79, 207, 0);
+  }
 }
 
 .primary-btn:hover {
@@ -555,6 +639,7 @@ export default {
   text-decoration: none;
   transition: all 0.3s ease;
 }
+
 .secondary-btn:hover {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: #fff;
@@ -562,9 +647,11 @@ export default {
 }
 
 /* =========================================
-   5. Solar System Grid & Features (HOVER ADDED)
+   4. SECTIONS & GRIDS
 ========================================= */
-.solar-system-section { background-color: transparent; }
+.solar-system-section {
+  background-color: transparent;
+}
 
 .section-title {
   font-size: 1.6rem;
@@ -591,10 +678,18 @@ export default {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.title-line:first-child::after { right: 0; }
-.title-line:last-child::after { left: 0; }
+.title-line:first-child::after {
+  right: 0;
+}
 
-.section-subtitle { color: rgba(255, 255, 255, 0.5); font-size: 0.95rem; }
+.title-line:last-child::after {
+  left: 0;
+}
+
+.section-subtitle {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.95rem;
+}
 
 .planets-grid {
   display: grid;
@@ -607,7 +702,7 @@ export default {
   background-color: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  transition: all 0.3s ease; /* transition applies everywhere */
+  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -630,18 +725,23 @@ export default {
 }
 
 .planet-card:hover .planet-img {
-  transform: scale(1.15); 
+  transform: scale(1.15);
 }
 
-.planet-name { 
-  font-size: 1.1rem; 
-  font-weight: 600; 
-  margin-bottom: 5px; 
+.planet-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
   color: #ffffff !important;
   opacity: 1 !important;
 }
 
-.planet-desc { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); margin-bottom: 15px; flex-grow: 1; }
+.planet-desc {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
 
 .explore-planet-btn {
   border-color: rgba(90, 79, 207, 0.8);
@@ -652,9 +752,13 @@ export default {
   text-decoration: none;
 }
 
-.explore-planet-btn:hover { background-color: rgba(90, 79, 207, 0.8); border-color: rgba(90, 79, 207, 0.8); color: #fff; }
+.explore-planet-btn:hover {
+  background-color: rgba(90, 79, 207, 0.8);
+  border-color: rgba(90, 79, 207, 0.8);
+  color: #fff;
+}
 
-/* Mars & APOD Cards */
+/* Features */
 .feature-card {
   height: 280px;
   border-radius: 12px;
@@ -662,7 +766,7 @@ export default {
   position: relative;
   overflow: hidden;
   background-color: #0c0e1a;
-  transition: all 0.3s ease; /* Add transition for hover effect */
+  transition: all 0.3s ease;
 }
 
 .feature-card:hover {
@@ -680,7 +784,10 @@ export default {
 .mars-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
 }
 
@@ -693,25 +800,49 @@ export default {
 .apod-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(270deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
 }
 
-.feature-content { padding: 40px; }
-.apod-content-wrapper { max-width: 70%; }
+.feature-content {
+  padding: 40px;
+}
 
-.feature-title { 
-  font-size: 1.4rem; 
-  font-weight: 600; 
-  letter-spacing: 1px; 
+.apod-content-wrapper {
+  max-width: 70%;
+}
+
+.feature-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 1px;
   color: #ffffff !important;
   opacity: 1 !important;
 }
 
-.feature-desc { color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; }
-.rover-links { font-size: 0.85rem; color: rgba(255, 255, 255, 0.5); }
-.rover-name { color: #8bb3f4; cursor: pointer; }
-.apod-meta { font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); line-height: 1.8; }
+.feature-desc {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.rover-links {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.rover-name {
+  color: #8bb3f4;
+  cursor: pointer;
+}
+
+.apod-meta {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.8;
+}
 
 .outline-action-btn {
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -723,14 +854,18 @@ export default {
   transition: 0.3s;
 }
 
-.outline-action-btn:hover { background-color: rgba(255, 255, 255, 0.1); color: #fff; border-color: #fff; }
+.outline-action-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: #fff;
+}
 
-/* Search & Favorites Cards */
+/* Tools */
 .tool-card {
   background-color: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  transition: all 0.3s ease; /* Add transition for hover effect */
+  transition: all 0.3s ease;
 }
 
 .tool-card:hover {
@@ -739,20 +874,27 @@ export default {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-.tool-title { 
-  font-size: 1.2rem; 
-  font-weight: 600; 
+.tool-title {
+  font-size: 1.2rem;
+  font-weight: 600;
   letter-spacing: 1px;
   color: #ffffff !important;
   opacity: 1 !important;
 }
 
-.tool-desc { color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; }
+.tool-desc {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
 
-.input-icon-wrapper { position: relative; }
+.input-icon-wrapper {
+  position: relative;
+}
+
 .search-icon {
   position: absolute;
-  left: 15px; top: 50%;
+  left: 15px;
+  top: 50%;
   transform: translateY(-50%);
   color: rgba(255, 255, 255, 0.4);
   font-size: 0.9rem;
@@ -773,33 +915,55 @@ export default {
   color: #fff;
 }
 
-.favorites-gallery { overflow-x: auto; padding-bottom: 5px; }
+.favorites-gallery {
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
 
 .fav-item {
-  width: 90px; height: 60px;
+  width: 90px;
+  height: 60px;
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
   flex-shrink: 0;
 }
 
-.fav-img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
+.fav-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.3s;
+}
 
 .fav-overlay {
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.3);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: 0.3s;
 }
 
-.fav-item:hover .fav-img { transform: scale(1.1); }
-.fav-item:hover .fav-overlay { opacity: 1; }
-.heart-icon { color: #fff; font-size: 1.2rem; }
+.fav-item:hover .fav-img {
+  transform: scale(1.1);
+}
 
-/* =========================================
-   6. Weather Section
-========================================= */
+.fav-item:hover .fav-overlay {
+  opacity: 1;
+}
+
+.heart-icon {
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+/* Weather */
 .weather-section {
   width: 100%;
   max-width: 1200px;
@@ -808,7 +972,7 @@ export default {
 }
 
 .weather-card {
-  background-color: rgba(255, 255, 255, 0.02); 
+  background-color: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 2.5rem;
@@ -829,14 +993,14 @@ export default {
 }
 
 .section-desc {
-  color: rgba(255, 255, 255, 0.7); 
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 2rem;
 }
 
 .weather-img {
-  width: 200px; 
+  width: 200px;
   height: 175px;
   display: flex;
   justify-content: center;
@@ -847,36 +1011,52 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  opacity: 0.75; 
+  opacity: 0.75;
 }
 
 /* =========================================
-   7. Media Queries
+   5. MEDIA QUERIES
 ========================================= */
-@media (max-width: 1200px) { 
-  .planets-grid { grid-template-columns: repeat(4, 1fr); } 
+@media (max-width: 1200px) {
+  .planets-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
-@media (max-width: 991px) { 
-  .apod-content-wrapper { max-width: 100%; text-align: left !important; } 
+@media (max-width: 991px) {
+  .apod-content-wrapper {
+    max-width: 100%;
+    text-align: left !important;
+  }
 }
 
 @media (max-width: 768px) {
-  .planets-grid { grid-template-columns: repeat(2, 1fr); }
-  .feature-card { height: auto; padding: 20px 0; }
-  .mars-card::before, .apod-card::before { background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 100%); }
+  .planets-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .feature-card {
+    height: auto;
+    padding: 20px 0;
+  }
+  
+  .mars-card::before,
+  .apod-card::before {
+    background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 100%);
+  }
   
   .weather-card {
     flex-direction: column;
     text-align: left;
     align-items: flex-start;
   }
+  
   .weather-img {
     display: none;
   }
   
-  /* Disable Typewriter on Mobile to prevent layout issues */
-  .type-line-1, .type-line-2 {
+  .type-line-1,
+  .type-line-2 {
     font-size: 2.5rem;
     white-space: normal;
     border-right: none;
