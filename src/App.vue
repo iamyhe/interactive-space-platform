@@ -1,35 +1,56 @@
 <template>
   <div id="app-container" class="d-flex flex-column min-vh-100">
+    
+    <!-- ========================================== -->
+    <!-- 1. NAVBAR SECTION                          -->
+    <!-- ========================================== -->
     <NavbarComponent />
     
+    <!-- ========================================== -->
+    <!-- 2. MAIN CONTENT ROUTER                     -->
+    <!-- ========================================== -->
     <main class="flex-grow-1 main-content">
       <router-view />
     </main>
 
+    <!-- ========================================== -->
+    <!-- 3. FOOTER SECTION                          -->
+    <!-- ========================================== -->
     <FooterComponent />
+
+    <!-- ========================================== -->
+    <!-- 4. FLOATING SPACE MISSION GAME             -->
+    <!-- ========================================== -->
+    <!-- Available across all pages -->
+    <SpaceMission />
+
   </div>
 </template>
 
 <script>
 import NavbarComponent from './components/Navbar.vue'
 import FooterComponent from './components/Footer.vue'
+import SpaceMission from './components/SpaceMission.vue'
 
 export default {
   name: 'App',
   components: {
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    SpaceMission
   }
 }
 </script>
 
 <style>
-/* Smooth scrolling for anchor links */
+/* =========================================
+   GLOBAL STYLES & RESET
+========================================= */
+
 html {
   scroll-behavior: smooth;
 }
 
-/* Global dark theme reset */
 body {
   background-color: #03050c;
   color: #ffffff;
@@ -39,6 +60,7 @@ body {
   overflow-x: hidden;
 }
 
+/* Push content down to avoid overlapping with fixed Navbar */
 .main-content {
   padding-top: 70px;
 }
