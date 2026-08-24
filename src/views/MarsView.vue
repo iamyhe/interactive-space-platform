@@ -92,9 +92,9 @@
               </a>
               <button
                 @click="addToFavorites(item)"
-                class="btn btn-outline-warning btn-sm rounded-pill shadow-none border-0"
+                class="btn space-fav-btn btn-sm rounded-pill shadow-none"
               >
-                Add To Favorites
+                ⭐ Add To Favorites
               </button>
             </div>
           </div>
@@ -189,6 +189,7 @@ const addToFavorites = (item) => {
     id: item.data[0].nasa_id,
     title: item.data[0].title,
     description: item.data[0].description || "No description available.",
+    image: item.links[0].href
   };
   const isAlreadySaved = favoritesList.find((fav) => fav.id === newFavorite.id);
   if (!isAlreadySaved) {
@@ -279,5 +280,18 @@ const addToFavorites = (item) => {
   background-color: rgba(255, 255, 255, 0.08);
   color: #c4c1ff;
   border-color: rgba(255, 255, 255, 0.15);
+}
+
+.space-fav-btn {
+  background: rgba(167, 139, 250, 0.15);
+  color: #c4b5fd;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  transition: all 0.3s ease;
+}
+.space-fav-btn:hover {
+  background: rgba(167, 139, 250, 0.3);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(167, 139, 250, 0.2);
 }
 </style>

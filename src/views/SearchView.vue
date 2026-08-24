@@ -282,6 +282,12 @@
                     </a>
 
                   </div>
+                  
+                  <div class="mt-3">
+                    <button @click.prevent="addToFavorites(item)" class="btn space-fav-btn btn-sm w-100 rounded-pill">
+                      ⭐ Add To Favorites
+                    </button>
+                  </div>
 
                 </div>
 
@@ -604,7 +610,7 @@ export default {
             info.media_type === "video"
           ) {
 
-        
+            
 
             if (
               videoSources.length === 0
@@ -754,6 +760,24 @@ export default {
             result.id !== item.id
         );
 
+    },
+    addToFavorites(item) {
+      const storedFavorites = localStorage.getItem("favorites");
+      const favoritesList = storedFavorites ? JSON.parse(storedFavorites) : [];
+      const newFavorite = {
+        id: item.id,
+        title: item.title,
+        description: item.description || "No description available.",
+        image: item.image_url || item.thumbnail
+      };
+      const isAlreadySaved = favoritesList.find((fav) => fav.id === newFavorite.id);
+      if (!isAlreadySaved) {
+        favoritesList.push(newFavorite);
+        localStorage.setItem("favorites", JSON.stringify(favoritesList));
+        alert("Add To Favorites");
+      } else {
+        alert("Already in Favorites");
+      }
     }
 
   }
@@ -1824,6 +1848,19 @@ export default {
     0 0 30px
     rgba(100,120,255,0.7);
 
+}
+
+.space-fav-btn {
+  background: rgba(167, 139, 250, 0.15);
+  color: #c4b5fd;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  transition: all 0.3s ease;
+}
+.space-fav-btn:hover {
+  background: rgba(167, 139, 250, 0.3);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(167, 139, 250, 0.2);
 }
 
 

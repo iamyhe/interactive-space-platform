@@ -93,7 +93,7 @@
             <div class="mt-4 d-flex justify-content-center">
               <button
                 @click="addToFavorites(apodData)"
-                class="favorite-btn btn btn-outline-warning rounded-pill px-4 py-2 shadow-sm"
+                class="btn space-fav-btn rounded-pill px-4 py-2 shadow-sm mb-4"
               >
                 ⭐ Add To Favorites
               </button>
@@ -161,6 +161,7 @@ export default {
         id: item.date,
         title: item.title,
         description: item.explanation || "No description available.",
+        image: item.url
       };
 
       const isAlreadySaved = favoritesList.find(
@@ -390,14 +391,17 @@ export default {
 .animate-shake {
   animation: shake 0.5s ease-in-out;
 }
-.favorite-btn {
-  background-color: rgba(255, 193, 7, 0.1);
+
+.space-fav-btn {
+  background: rgba(167, 139, 250, 0.15);
+  color: #c4b5fd;
+  border: 1px solid rgba(167, 139, 250, 0.4);
   transition: all 0.3s ease;
-  margin-bottom: 35px;
 }
-.favorite-btn:hover {
-  background-color: rgba(255, 193, 7, 0.2);
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255, 193, 7, 0.4) !important;
+.space-fav-btn:hover {
+  background: rgba(167, 139, 250, 0.3);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(167, 139, 250, 0.2);
 }
 </style>
