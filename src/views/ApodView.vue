@@ -3,8 +3,12 @@
     <div class="container">
       <!-- Animated Title -->
       <div class="text-center mb-5 animate-slide-down">
-        <h1 class="display-3 fw-bold text-gradient mb-2">NASA Astronomy Picture</h1>
-        <p class="text-light opacity-75">Explore the cosmos with NASA's daily featured imagery.</p>
+        <h1 class="display-3 fw-bold text-gradient mb-2">
+          NASA Astronomy Picture
+        </h1>
+        <p class="text-light opacity-75">
+          Explore the cosmos with NASA's daily featured imagery.
+        </p>
       </div>
 
       <!-- Date Picker Filter with Glow -->
@@ -14,11 +18,11 @@
             <label for="apodDate" class="form-label text-info fw-semibold mb-2">
               <i class="bi bi-calendar-date me-1"></i> Select Date:
             </label>
-            <input 
-              type="date" 
-              id="apodDate" 
-              class="form-control custom-date-input" 
-              v-model="selectedDate" 
+            <input
+              type="date"
+              id="apodDate"
+              class="form-control custom-date-input"
+              v-model="selectedDate"
               :max="currentDate"
             />
           </div>
@@ -30,38 +34,70 @@
         <div class="spinner-border text-info" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
-        <p class="text-info mt-3 fw-light tracking-wide">Cosmic journey initializing...</p>
+        <p class="text-info mt-3 fw-light tracking-wide">
+          Cosmic journey initializing...
+        </p>
       </div>
 
       <!-- Error Message -->
-      <div v-if="errorMsg" class="alert alert-danger text-center rounded-4 shadow animate-shake" role="alert">
+      <div
+        v-if="errorMsg"
+        class="alert alert-danger text-center rounded-4 shadow animate-shake"
+        role="alert"
+      >
         {{ errorMsg }}
       </div>
 
       <!-- Main Content with Float Animation -->
-      <div v-if="!loading && apodData" class="row justify-content-center animate-float">
+      <div
+        v-if="!loading && apodData"
+        class="row justify-content-center animate-float"
+      >
         <div class="col-lg-10">
           <div class="glass-card overflow-hidden rounded-4 shadow-2lg border-0">
-            
             <!-- Media Container -->
             <div class="media-container position-relative">
               <div v-if="apodData.media_type === 'image'">
-                <img :src="apodData.url" :alt="apodData.title" class="w-100 apod-img">
+                <img
+                  :src="apodData.url"
+                  :alt="apodData.title"
+                  class="w-100 apod-img"
+                />
               </div>
-              <div v-else-if="apodData.media_type === 'video'" class="ratio ratio-16x9">
-                <iframe :src="apodData.url" title="NASA APOD Video" allowfullscreen></iframe>
+              <div
+                v-else-if="apodData.media_type === 'video'"
+                class="ratio ratio-16x9"
+              >
+                <iframe
+                  :src="apodData.url"
+                  title="NASA APOD Video"
+                  allowfullscreen
+                ></iframe>
               </div>
-              <div class="date-overlay position-absolute top-0 end-0 m-3 px-4 py-2 rounded-pill text-white fw-bold">
+              <div
+                class="date-overlay position-absolute top-0 end-0 m-3 px-4 py-2 rounded-pill text-white fw-bold"
+              >
                 {{ apodData.date }}
               </div>
             </div>
 
             <!-- Card Body with Text Gradient -->
             <div class="card-body p-5 text-light">
-              <h2 class="card-title fw-bold text-gradient-blue mb-3">{{ apodData.title }}</h2>
-              <p class="card-text lh-lg text-light opacity-90 fs-6">{{ apodData.explanation }}</p>
+              <h2 class="card-title fw-bold text-gradient-blue mb-3">
+                {{ apodData.title }}
+              </h2>
+              <p class="card-text lh-lg text-light opacity-90 fs-6">
+                {{ apodData.explanation }}
+              </p>
             </div>
-
+            <div class="mt-4 d-flex justify-content-center">
+              <button
+                @click="addToFavorites(apodData)"
+                class="favorite-btn btn btn-outline-warning rounded-pill px-4 py-2 shadow-sm"
+              >
+                ⭐ Add To Favorites
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -72,14 +108,14 @@
 </template>
 
 <script>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted } from "vue";
 
 export default {
-  name: 'ApodView',
+  name: "ApodView",
   setup() {
     const getTodayDate = () => {
       const today = new Date();
-      return today.toISOString().split('T')[0];
+      return today.toISOString().split("T")[0];
     };
 
     const currentDate = ref(getTodayDate());
@@ -91,10 +127,12 @@ export default {
     const fetchApod = async (date) => {
       loading.value = true;
       errorMsg.value = null;
-      
-      const apiKey = import.meta.env.VITE_NASA_API_KEY || 'DEMO_KEY';
+
+      const apiKey =
+        import.meta.env.VITE_NASA_API_KEY ||
+        "BOCeunM0oXV1NpDHOljs7f6PhzC79EhO3QoQxPvK";
       let url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
-      
+
       if (date) {
         url += `&date=${date}`;
       }
@@ -102,18 +140,41 @@ export default {
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          throw new Error('Failed to fetch data from NASA API.');
+          throw new Error("Failed to fetch data from NASA API.");
         }
         const data = await response.json();
         apodData.value = data;
       } catch (err) {
-        errorMsg.value = 'Could not load data. Please check your connection or API key.';
+        errorMsg.value =
+          "Could not load data. Please check your connection or API key.";
         console.error(err);
       } finally {
         loading.value = false;
       }
     };
+    const addToFavorites = (item) => {
+      if (!item) return;
 
+      const storedFavorites = localStorage.getItem("favorites");
+      const favoritesList = storedFavorites ? JSON.parse(storedFavorites) : [];
+      const newFavorite = {
+        id: item.date,
+        title: item.title,
+        description: item.explanation || "No description available.",
+      };
+
+      const isAlreadySaved = favoritesList.find(
+        (fav) => fav.id === newFavorite.id,
+      );
+
+      if (!isAlreadySaved) {
+        favoritesList.push(newFavorite);
+        localStorage.setItem("favorites", JSON.stringify(favoritesList));
+        alert("Add To Favorite");
+      } else {
+        alert("Already in Favorites");
+      }
+    };
     watch(selectedDate, (newDate) => {
       if (newDate) {
         fetchApod(newDate);
@@ -129,10 +190,11 @@ export default {
       selectedDate,
       apodData,
       loading,
-      errorMsg
+      errorMsg,
+      addToFavorites,
     };
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -151,12 +213,18 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
+  background-image:
     radial-gradient(white, rgba(255, 255, 255, 0.2) 2px, transparent 3px),
     radial-gradient(white, rgba(255, 255, 255, 0.15) 1px, transparent 2px),
     radial-gradient(white, rgba(255, 255, 255, 0.1) 2px, transparent 3px);
-  background-size: 550px 550px, 350px 350px, 250px 250px;
-  background-position: 0 0, 40px 60px, 130px 270px;
+  background-size:
+    550px 550px,
+    350px 350px,
+    250px 250px;
+  background-position:
+    0 0,
+    40px 60px,
+    130px 270px;
   animation: particleDrift 60s linear infinite;
   opacity: 0.6;
   pointer-events: none;
@@ -230,34 +298,76 @@ export default {
 
 /* Particle drift */
 @keyframes particleDrift {
-  from { background-position: 0 0, 40px 60px, 130px 270px; }
-  to { background-position: 550px 550px, 390px 410px, 380px 520px; }
+  from {
+    background-position:
+      0 0,
+      40px 60px,
+      130px 270px;
+  }
+  to {
+    background-position:
+      550px 550px,
+      390px 410px,
+      380px 520px;
+  }
 }
 
 /* Slide down */
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-40px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Scale in */
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Float */
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(10px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 /* Shake */
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
-  20%, 40%, 60%, 80% { transform: translateX(8px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-8px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(8px);
+  }
 }
 
 /* Apply animations with classes */
@@ -279,5 +389,15 @@ export default {
 
 .animate-shake {
   animation: shake 0.5s ease-in-out;
+}
+.favorite-btn {
+  background-color: rgba(255, 193, 7, 0.1);
+  transition: all 0.3s ease;
+  margin-bottom: 35px;
+}
+.favorite-btn:hover {
+  background-color: rgba(255, 193, 7, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.4) !important;
 }
 </style>

@@ -80,15 +80,23 @@
             >
               {{ formatDate(item.data[0].date_created) }}
             </p>
-            <a
-              href="#"
-              @click.prevent="showDescription(item.data[0].description)"
-              class="view-details text-decoration-none"
-              data-bs-toggle="modal"
-              data-bs-target="#descriptionModal"
-            >
-              View Details &rarr;
-            </a>
+            <div class="d-flex justify-content-between align-items-center">
+              <a
+                href="#"
+                @click.prevent="showDescription(item.data[0].description)"
+                class="view-details text-decoration-none"
+                data-bs-toggle="modal"
+                data-bs-target="#descriptionModal"
+              >
+                View Details &rarr;
+              </a>
+              <button
+                @click="addToFavorites(item)"
+                class="btn btn-outline-warning btn-sm rounded-pill shadow-none border-0"
+              >
+                Add To Favorites
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -173,6 +181,23 @@ const formatDate = (date) => {
   }
   const options = { year: "numeric", month: "short", day: "numeric" };
   return new Date(date).toLocaleDateString("en-US", options);
+};
+const addToFavorites = (item) => {
+  const storedFavorites = localStorage.getItem("favorites");
+  const favoritesList = storedFavorites ? JSON.parse(storedFavorites) : [];
+  const newFavorite = {
+    id: item.data[0].nasa_id,
+    title: item.data[0].title,
+    description: item.data[0].description || "No description available.",
+  };
+  const isAlreadySaved = favoritesList.find((fav) => fav.id === newFavorite.id);
+  if (!isAlreadySaved) {
+    favoritesList.push(newFavorite);
+    localStorage.setItem("favorites", JSON.stringify(favoritesList));
+    alert("Add To Favorites");
+  } else {
+    alert("Already in Favorites");
+  }
 };
 </script>
 
